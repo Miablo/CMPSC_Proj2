@@ -18,7 +18,7 @@
 #include<stdio.h>
 #include<iostream>
 #include<string>
-#include<cmath>
+#include<math.h>
 #include<sstream>
 
 //---- namespace --//
@@ -30,102 +30,149 @@ using std::string;
 int main (){
 	// variable declaration
 	int count, n; 
-	bool printParen = true;
+	bool printParen;
+	char usrChoice;
 
-	// ask for number input
-	cout << "Enter a number: \n";
-	cin >> n;
+	do {
 
-	count = n;
-	while(printParen){
-		// print out parentheses
-		//----- case 1 ------//
-		while(count != 0){
-			printf("(");
-			count--;
-		}
-		count = n; 
-		while(count != 0){
-			printf(")");
-			count--;
-		}
-		//----- end of case 1 -----//
-		printf("\n");
+		printParen = true;
+		// ask for number input
+		cout << "Enter a number: \n";
+		cin >> n;
 
-		//---- case 2 -----//
+		printf("\n\n");
+
 		count = n;
-			// left side print
-			while(1){
+		while(printParen){
+			// print out parentheses
+			//----- case 1 ------//
+			while(count != 0){
+				printf("(");
 				count--;
-				if(count == 0){
-					printf(")");
-					break;
-				}else{
-					printf("(");
-				}
 			}
-			
+			count = n; 
+			while(count != 0){
+				printf(")");
+				count--;
+			}
+			//----- end of case 1 -----//
+			printf("\n");
+
+			//---- case 2 -----//
 			count = n;
-			// right side print
-			while(1){
-				if(count == n)
-					printf("(");
-
-				count--;
-				 if(count == 0){
-					 break;
-				 }else {
-					 printf(")");
-				 }
-			}
-		// ---- end of case 2 ---//
-		printf("\n");
-
-		//----- case 3 ----//
-		count = n;
-		// left side print
-			while(1){
-				count--;
-				if(count == 0){
-					printf(")");
-					break;
-				}else{
-					printf("(");
+				// left side print
+				while(1){
+					count--;
+					if(count == 0){
+						printf(")");
+						break;
+					}else{
+						printf("(");
+					}
 				}
-			}
+				
+				count = n;
+				// right side print
+				while(1){
+					if(count == n)
+						printf("(");
 
-		// right side
-		count = n;
-			// right side print
-			while(1){
-				if(count == n)
-					printf("(");
+					count--;
+					if(count == 0){
+						break;
+					}else {
+						printf(")");
+					}
+				}
+			// ---- end of case 2 ---//
+			printf("\n");
 
-				count--;
-				 if(count == 0){
-					 break;
-				 }else {
-					 printf(")");
-				 }
-			}
+			//----- case 3 ----//
+			count = n;
+			// left side print
+				while(1){
+					count--;
+					if(count == 0){
+						printf(")");
+						break;
+					}else{
+						printf("(");
+					}
+				}
 
+			// right side
+			count = n;
+				// right side print
+				while(1){
+					if(count == 0){
+						break;
+					} else if (count % 2 == 0) { // even
+							printf("(");
+					} else { // odd
+						printf(")");
+					}
 
-		//---- end of case 3 ----//
+					count--;
+				}
+			//---- end of case 3 ----//
+			printf("\n");
 
+			//----- case 4 ----//
+			// left side print
+			count = n;
 
-		//----- case 4 ----//
+				while(1){
+					if(count == 0){
+						break;
+					} else if (count % 2 == 0) { // even
+							printf(")");
+					} else { // odd
+						printf("(");
+					}
 
+					count--;
+				}
 
+				count = n;
+				// right side print
+				while(1){
+					if(count == n)
+						printf("(");
 
-		//------ end of case 4 -----//
+					count--;
+					if(count == 0){
+						break;
+					}else {
+						printf(")");
+					}
+				}
+			//------ end of case 4 -----//
+			printf("\n");
 
+			//----- case 5 -----//
+			// left side print
+			count = n+n;
+				while(1){
+					if(count == 0){
+						break;
+					} else if (count % 2 == 0) { // even
+							printf("(");
+					} else { // odd
+						printf(")");
+					}
+					count--;
+				}
+			//---- end of case 5 ----//
+			printf("\n\n");
 
-		//----- case 5 -----//
+			printParen = false;
+		}
 
+		cout << "\n\n(R)eplay or (Q)uit?" << endl;
+		printf(":: ");
+		cin >> usrChoice;
 
-		//---- end of case 5 ----//
+	} while(usrChoice == toupper('R'));
 
-		printParen = false;
-	}
 
 }
