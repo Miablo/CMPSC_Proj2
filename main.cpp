@@ -5,174 +5,258 @@
 *Your Name: Mio Diaz
 *Your PSU user ID:  mvd5044
 *Course title CMPSC465 SU2021 
-*Due Time: 11:59PM EST, Sunday, June 30, 2021
-*Time of Last Modification: 4:22PM, Sunday, June 30, 2021
+*Due Time: 11:59PM EST, Sunday, June 13, 2021
+*Time of Last Modification: 2:42PM, Friday, June 11, 2021
 *Description: Project Two utilizes recursion and loops to print parentheses
 */
-
-// paste test cases at end of prog
-
-// Given pairs of parentheses, write a program in C++ to generate all combinations of well-formed parentheses.
-// For example, given , a solution set is:"((()))", "(()())", "(())()","()(())", "()()()"
-
+// KNOWN BUGS //
+/* Currently prints in reverse order then example not sure if specific order is a requirement */
 #include<stdio.h>
 #include<iostream>
 #include<string>
 #include<math.h>
 #include<sstream>
+#include <array>
+#include<queue>
+
+#define MAX 100
 
 //---- namespace --//
 using std::cout;
 using std::endl;
 using std::cin;
 using std::string;
+using std::array;
+
+//--- function prototypes----//
+void printParentheses(int, int, int,  int);
+
+//--- GLOBAL VAR ---//
+array<char, MAX> seq;
 
 int main (){
 	// variable declaration
-	int count, n; 
-	bool printParen;
+	int n; 
 	char usrChoice;
 
 	do {
-
-		printParen = true;
 		// ask for number input
 		cout << "Enter a number: \n";
-		cin >> n;
+		cin >> n; // store num
 
 		printf("\n\n");
+		// Begin Parenthesis Printing //
+		printParentheses(0, n, 0, 0);
+		// End Parenthesis Printing //
 
-		count = n;
-		while(printParen){
-			// print out parentheses
-			//----- case 1 ------//
-			while(count != 0){
-				printf("(");
-				count--;
-			}
-			count = n; 
-			while(count != 0){
-				printf(")");
-				count--;
-			}
-			//----- end of case 1 -----//
-			printf("\n");
-
-			//---- case 2 -----//
-			count = n;
-				// left side print
-				while(1){
-					count--;
-					if(count == 0){
-						printf(")");
-						break;
-					}else{
-						printf("(");
-					}
-				}
-				
-				count = n;
-				// right side print
-				while(1){
-					if(count == n)
-						printf("(");
-
-					count--;
-					if(count == 0){
-						break;
-					}else {
-						printf(")");
-					}
-				}
-			// ---- end of case 2 ---//
-			printf("\n");
-
-			//----- case 3 ----//
-			count = n;
-			// left side print
-				while(1){
-					count--;
-					if(count == 0){
-						printf(")");
-						break;
-					}else{
-						printf("(");
-					}
-				}
-
-			// right side
-			count = n;
-				// right side print
-				while(1){
-					if(count == 0){
-						break;
-					} else if (count % 2 == 0) { // even
-							printf("(");
-					} else { // odd
-						printf(")");
-					}
-
-					count--;
-				}
-			//---- end of case 3 ----//
-			printf("\n");
-
-			//----- case 4 ----//
-			// left side print
-			count = n;
-
-				while(1){
-					if(count == 0){
-						break;
-					} else if (count % 2 == 0) { // even
-							printf(")");
-					} else { // odd
-						printf("(");
-					}
-
-					count--;
-				}
-
-				count = n;
-				// right side print
-				while(1){
-					if(count == n)
-						printf("(");
-
-					count--;
-					if(count == 0){
-						break;
-					}else {
-						printf(")");
-					}
-				}
-			//------ end of case 4 -----//
-			printf("\n");
-
-			//----- case 5 -----//
-			// left side print
-			count = n+n;
-				while(1){
-					if(count == 0){
-						break;
-					} else if (count % 2 == 0) { // even
-							printf("(");
-					} else { // odd
-						printf(")");
-					}
-					count--;
-				}
-			//---- end of case 5 ----//
-			printf("\n\n");
-
-			printParen = false;
-		}
-
+		// enter new num or end prog //
 		cout << "\n\n(R)eplay or (Q)uit?" << endl;
 		printf(":: ");
+		// store user input //
 		cin >> usrChoice;
-
 	} while(usrChoice == toupper('R'));
+	// end main
+} // end prog
+
+// printParentheses 
+// takes input n, i, first, and last used recursively 
+// to determine direction of paratheses
+void printParentheses(int i, int n, int first, int last){
+	if(first == n){
+		for(const auto& s : seq){
+			cout << s;
+		}
+		printf("\n");
+	} else {
+		if(last > first){
+			seq[i] = ')';
+			printParentheses(i+1,n,first+1,last);
+		}
+		if(last < n) {
+			seq[i] = '(';
+			printParentheses(i+1,n,first,last+1);
+		}
+	}
+	
+} // end print paratheses //
+
+// TEST CASES //
+/*
+
+Enter a number: 
+3
 
 
-}
+()()()
+()(())
+(())()
+(()())
+((()))
+
+
+(R)eplay or (Q)uit?
+:: R
+Enter a number: 
+4
+
+
+()()()()
+()()(())
+()(())()
+()(()())
+()((()))
+(())()()
+(())(())
+(()())()
+(()()())
+(()(()))
+((()))()
+((())())
+((()()))
+(((())))
+
+
+(R)eplay or (Q)uit?
+:: Q
+
+Enter a number: 
+6
+
+
+()()()()()()
+()()()()(())
+()()()(())()
+()()()(()())
+()()()((()))
+()()(())()()
+()()(())(())
+()()(()())()
+()()(()()())
+()()(()(()))
+()()((()))()
+()()((())())
+()()((()()))
+()()(((())))
+()(())()()()
+()(())()(())
+()(())(())()
+()(())(()())
+()(())((()))
+()(()())()()
+()(()())(())
+()(()()())()
+()(()()()())
+()(()()(()))
+()(()(()))()
+()(()(())())
+()(()(()()))
+()(()((())))
+()((()))()()
+()((()))(())
+()((())())()
+()((())()())
+()((())(()))
+()((()()))()
+()((()())())
+()((()()()))
+()((()(())))
+()(((())))()
+()(((()))())
+()(((())()))
+()(((()())))
+()((((()))))
+(())()()()()
+(())()()(())
+(())()(())()
+(())()(()())
+(())()((()))
+(())(())()()
+(())(())(())
+(())(()())()
+(())(()()())
+(())(()(()))
+(())((()))()
+(())((())())
+(())((()()))
+(())(((())))
+(()())()()()
+(()())()(())
+(()())(())()
+(()())(()())
+(()())((()))
+(()()())()()
+(()()())(())
+(()()()())()
+(()()()()())
+(()()()(()))
+(()()(()))()
+(()()(())())
+(()()(()()))
+(()()((())))
+(()(()))()()
+(()(()))(())
+(()(())())()
+(()(())()())
+(()(())(()))
+(()(()()))()
+(()(()())())
+(()(()()()))
+(()(()(())))
+(()((())))()
+(()((()))())
+(()((())()))
+(()((()())))
+(()(((()))))
+((()))()()()
+((()))()(())
+((()))(())()
+((()))(()())
+((()))((()))
+((())())()()
+((())())(())
+((())()())()
+((())()()())
+((())()(()))
+((())(()))()
+((())(())())
+((())(()()))
+((())((())))
+((()()))()()
+((()()))(())
+((()())())()
+((()())()())
+((()())(()))
+((()()()))()
+((()()())())
+((()()()()))
+((()()(())))
+((()(())))()
+((()(()))())
+((()(())()))
+((()(()())))
+((()((()))))
+(((())))()()
+(((())))(())
+(((()))())()
+(((()))()())
+(((()))(()))
+(((())()))()
+(((())())())
+(((())()()))
+(((())(())))
+(((()())))()
+(((()()))())
+(((()())()))
+(((()()())))
+(((()(()))))
+((((()))))()
+((((())))())
+((((()))()))
+((((())())))
+((((()()))))
+(((((())))))
+
+
+(R)eplay or (Q)uit?
+:: Q
+*/
